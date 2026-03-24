@@ -1,4 +1,10 @@
-export default function CursorIcon({ size = 20, filled = false, className = '' }) {
+interface CursorIconProps {
+  size?: number;
+  filled?: boolean;
+  className?: string;
+}
+
+export default function CursorIcon({ size = 20, filled = false, className = '' }: CursorIconProps) {
   return (
     <svg
       width={size}

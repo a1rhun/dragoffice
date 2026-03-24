@@ -1,11 +1,18 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-const CartContext = createContext(null);
+interface CartContextValue {
+  cart: number[];
+  addToCart: (productId: number) => void;
+  removeFromCart: (productId: number) => void;
+  isInCart: (productId: number) => boolean;
+}
 
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
+const CartContext = createContext<CartContextValue | null>(null);
+
+export function CartProvider({ children }: { children: ReactNode }) {
+  const [cart, setCart] = useState<number[]>([]);
 
   useEffect(() => {
     try {
@@ -14,7 +21,7 @@ export function CartProvider({ children }) {
     } catch {}
   }, []);
 
-  const addToCart = (productId) => {
+  const addToCart = (productId: number) => {
     setCart((prev) => {
       if (prev.includes(productId)) return prev;
       const next = [...prev, productId];
@@ -23,7 +30,7 @@ export function CartProvider({ children }) {
     });
   };
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = (productId: number) => {
     setCart((prev) => {
       const next = prev.filter((id) => id !== productId);
       localStorage.setItem('dragoffice-cart', JSON.stringify(next));
@@ -31,7 +38,7 @@ export function CartProvider({ children }) {
     });
   };
 
-  const isInCart = (productId) => cart.includes(productId);
+  const isInCart = (productId: number) => cart.includes(productId);
 
   return (
     <CartContext.Provider value={{ cart, addToCart, removeFromCart, isInCart }}>
@@ -40,7 +47,7 @@ export function CartProvider({ children }) {
   );
 }
 
-export function useCart() {
+export function useCart(): CartContextValue {
   const ctx = useContext(CartContext);
   if (!ctx) throw new Error('useCart must be used within CartProvider');
   return ctx;

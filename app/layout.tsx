@@ -1,4 +1,5 @@
 import { DM_Sans, Space_Mono, Cormorant } from 'next/font/google';
+import { Metadata } from 'next';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import { WishlistProvider } from '@/lib/WishlistContext';
@@ -23,12 +24,12 @@ const dmSans = DM_Sans({
   variable: '--font-sans',
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'DRAGOFFICE',
   description: '드래그오피스 — 보는 눈을 제안한다.',
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="ko"

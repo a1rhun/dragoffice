@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const MARQUEE_ITEMS = [
+const MARQUEE_ITEMS: [string, string][] = [
   ['THE FIND', 'Curated Objects'],
   ['CONTEXT', 'Archive Reference'],
   ["SELECTOR'S EYE", 'Bespoke Selection'],
@@ -9,7 +9,13 @@ const MARQUEE_ITEMS = [
   ['GWANGJU', 'KOREA'],
 ];
 
-const EDITORIAL = [
+interface EditorialItem {
+  num: string;
+  title: string;
+  body: string;
+}
+
+const EDITORIAL: EditorialItem[] = [
   {
     num: '01',
     title: '발굴',

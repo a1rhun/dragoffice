@@ -7,22 +7,27 @@ import CursorIcon from './CursorIcon';
 import { formatPrice } from '@/utils/format';
 import { useWishlist } from '@/lib/WishlistContext';
 import { useCart } from '@/lib/CartContext';
+import type { Product, ProductCondition } from '@/types';
 
-const CONDITION_COLOR = {
+const CONDITION_COLOR: Record<ProductCondition, string> = {
   Mint: '#3a7d44',
   Excellent: '#2563a8',
   'Very Good': '#b45309',
   Good: '#9b2c2c',
 };
 
-const CONDITION_KO = {
+const CONDITION_KO: Record<ProductCondition, string> = {
   Mint: '최상',
   Excellent: '상',
   'Very Good': '양호',
   Good: '보통',
 };
 
-export default function ProductDetailClient({ product }) {
+interface ProductDetailClientProps {
+  product: Product;
+}
+
+export default function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [imgIndex, setImgIndex] = useState(0);
   const { toggle, isWishlisted } = useWishlist();
   const { addToCart, removeFromCart, isInCart } = useCart();
@@ -41,7 +46,6 @@ export default function ProductDetailClient({ product }) {
       </Link>
 
       <div className="detail-layout">
-        {/* 갤러리 */}
         <div className="detail-gallery">
           {hasThumbs && (
             <div className="detail-thumbs">
@@ -64,7 +68,6 @@ export default function ProductDetailClient({ product }) {
           </div>
         </div>
 
-        {/* 상품 정보 */}
         <div className="detail-info">
           <p className="breadcrumb">DRAGOFFICE / {product.tag}</p>
 
@@ -74,7 +77,6 @@ export default function ProductDetailClient({ product }) {
 
           <p className="price">{formatPrice(product.price)}</p>
 
-          {/* 메타 */}
           <div className="detail-meta-row">
             <div
               className="detail-condition"
@@ -93,7 +95,6 @@ export default function ProductDetailClient({ product }) {
 
           <p className="condition-note">{product.conditionNote}</p>
 
-          {/* 실측 사이즈 */}
           <div className="measurements-section">
             <p className="measurements-title">실측 사이즈</p>
             <div className="measurements-grid">
@@ -107,7 +108,6 @@ export default function ProductDetailClient({ product }) {
             <p className="measurements-note">* 실측 기준, 1–2cm 오차 있음</p>
           </div>
 
-          {/* 찜 + 장바구니 — 분리된 버튼 */}
           <div className="detail-actions">
             <button
               className={`wishlist-btn-detail${wishlisted ? ' active' : ''}`}
@@ -139,7 +139,6 @@ export default function ProductDetailClient({ product }) {
             )}
           </div>
 
-          {/* 아코디언 */}
           <Accordion title="아이템 스토리">
             <p className="product-story">{product.story}</p>
           </Accordion>

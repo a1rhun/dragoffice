@@ -5,20 +5,25 @@ import Link from 'next/link';
 import { formatPrice } from '@/utils/format';
 import { useWishlist } from '@/lib/WishlistContext';
 import CursorIcon from './CursorIcon';
+import type { Product, ProductCondition } from '@/types';
 
-const CONDITION_COLOR = {
+const CONDITION_COLOR: Record<ProductCondition, string> = {
   Mint: '#3a7d44',
   Excellent: '#2563a8',
   'Very Good': '#b45309',
   Good: '#9b2c2c',
 };
 
-export default function ProductCard({ product }) {
+interface ProductCardProps {
+  product: Product;
+}
+
+export default function ProductCard({ product }: ProductCardProps) {
   const { toggle, isWishlisted } = useWishlist();
   const wishlisted = isWishlisted(product.id);
   const [popping, setPopping] = useState(false);
 
-  const handleWishlist = (e) => {
+  const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     toggle(product.id);
@@ -42,7 +47,6 @@ export default function ProductCard({ product }) {
             <span className="product-card__era">{product.era}</span>
           </div>
 
-          {/* 찜 커서 버튼 — 이미지 우 하단 */}
           <button
             className={[
               'product-card__wishlist-btn',

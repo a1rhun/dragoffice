@@ -1,11 +1,17 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-const WishlistContext = createContext(null);
+interface WishlistContextValue {
+  wishlist: number[];
+  toggle: (productId: number) => void;
+  isWishlisted: (productId: number) => boolean;
+}
 
-export function WishlistProvider({ children }) {
-  const [wishlist, setWishlist] = useState([]);
+const WishlistContext = createContext<WishlistContextValue | null>(null);
+
+export function WishlistProvider({ children }: { children: ReactNode }) {
+  const [wishlist, setWishlist] = useState<number[]>([]);
 
   useEffect(() => {
     try {
@@ -14,7 +20,7 @@ export function WishlistProvider({ children }) {
     } catch {}
   }, []);
 
-  const toggle = (productId) => {
+  const toggle = (productId: number) => {
     setWishlist((prev) => {
       const next = prev.includes(productId)
         ? prev.filter((id) => id !== productId)
@@ -24,7 +30,7 @@ export function WishlistProvider({ children }) {
     });
   };
 
-  const isWishlisted = (productId) => wishlist.includes(productId);
+  const isWishlisted = (productId: number) => wishlist.includes(productId);
 
   return (
     <WishlistContext.Provider value={{ wishlist, toggle, isWishlisted }}>
@@ -33,7 +39,7 @@ export function WishlistProvider({ children }) {
   );
 }
 
-export function useWishlist() {
+export function useWishlist(): WishlistContextValue {
   const ctx = useContext(WishlistContext);
   if (!ctx) throw new Error('useWishlist must be used within WishlistProvider');
   return ctx;

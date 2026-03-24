@@ -2,8 +2,14 @@
 
 import { useState } from 'react';
 import ProductCard from './ProductCard';
+import type { Product, ProductCategory, ProductCondition } from '@/types';
 
-const CATEGORIES = [
+interface FilterOption<T extends string> {
+  key: T | 'all';
+  label: string;
+}
+
+const CATEGORIES: FilterOption<ProductCategory>[] = [
   { key: 'all', label: 'All' },
   { key: 'tops', label: 'Tops' },
   { key: 'outerwear', label: 'Outerwear' },
@@ -11,14 +17,14 @@ const CATEGORIES = [
   { key: 'shoes', label: 'Shoes' },
 ];
 
-const ERAS = [
+const ERAS: FilterOption<string>[] = [
   { key: 'all', label: 'All' },
   { key: '1980s', label: '80s' },
   { key: '1990s', label: '90s' },
   { key: '2000s', label: '00s' },
 ];
 
-const CONDITIONS = [
+const CONDITIONS: FilterOption<ProductCondition>[] = [
   { key: 'all', label: 'All' },
   { key: 'Mint', label: 'Mint' },
   { key: 'Excellent', label: 'Excellent' },
@@ -26,10 +32,14 @@ const CONDITIONS = [
   { key: 'Good', label: 'Good' },
 ];
 
-export default function CollectionClient({ products }) {
-  const [category, setCategory] = useState('all');
-  const [era, setEra] = useState('all');
-  const [condition, setCondition] = useState('all');
+interface CollectionClientProps {
+  products: Product[];
+}
+
+export default function CollectionClient({ products }: CollectionClientProps) {
+  const [category, setCategory] = useState<ProductCategory | 'all'>('all');
+  const [era, setEra] = useState<string>('all');
+  const [condition, setCondition] = useState<ProductCondition | 'all'>('all');
 
   const filtered = products.filter((p) => {
     if (category !== 'all' && p.category !== category) return false;
@@ -52,7 +62,7 @@ export default function CollectionClient({ products }) {
             <button
               key={c.key}
               className={`filter-chip${category === c.key ? ' active' : ''}`}
-              onClick={() => setCategory(c.key)}
+              onClick={() => setCategory(c.key as ProductCategory | 'all')}
             >
               {c.label}
             </button>
@@ -78,7 +88,7 @@ export default function CollectionClient({ products }) {
             <button
               key={c.key}
               className={`filter-chip${condition === c.key ? ' active' : ''}`}
-              onClick={() => setCondition(c.key)}
+              onClick={() => setCondition(c.key as ProductCondition | 'all')}
             >
               {c.label}
             </button>
