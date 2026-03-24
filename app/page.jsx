@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const MARQUEE_ITEMS = [
   ['THE FIND', 'Curated Objects'],
   ['CONTEXT', 'Archive Reference'],
@@ -25,10 +27,9 @@ const EDITORIAL = [
   },
 ];
 
-// doubled for seamless infinite scroll
 const marqueeItems = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
 
-export default function Home({ onShop }) {
+export default function HomePage() {
   return (
     <>
       <div className="home-hero">
@@ -50,9 +51,9 @@ export default function Home({ onShop }) {
             주변에 있지만 주목받지 못한, 디자인 완성도가 높은 물건들을 발굴해서
             이를 알아볼 줄 아는 사람들에게 연결한다.
           </p>
-          <button className="btn-primary" onClick={onShop}>
+          <Link href="/collection" className="btn-primary">
             컬렉션 보기
-          </button>
+          </Link>
         </div>
       </div>
 
